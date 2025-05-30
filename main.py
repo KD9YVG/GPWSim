@@ -1,31 +1,41 @@
-from playsound import playsound
-import time
+from tkinter import Tk, Scale, Checkbutton, IntVar, Spinbox, HORIZONTAL
 
-audio_files = [
-    "Audio/2500.wav",
-    "Audio/2000.wav",
-    "Audio/1000.wav",
-    "Audio/500.wav",
-    "Audio/400.wav",
-    "Audio/300.wav",
-    "Audio/200.wav",
-    "Audio/100.wav",
-    "Audio/50.wav",
-    "Audio/40.wav",
-    "Audio/30.wav",
-    "Audio/20.wav",
-    "Audio/10.wav",
-    "Audio/5.wav"
-]
+class MyApp:
+    def __init__(self, master):
+        self.master = master
+        master.title("My Python GUI App")
+        master.geometry("600x400")  # Make the window larger
 
-for audio in audio_files:
-    playsound(audio)
-    if "2500" in audio or "2000" in audio or "1000" in audio:
-        time.sleep(2)
-    elif "500" in audio or "400" in audio or "300" in audio or "200" in audio or "100" in audio:
-        time.sleep(1)
-    elif "50" in audio or "40" in audio or "30" in audio or "20" in audio or "10" in audio or "5" in audio:
-        time.sleep(0.5)
+        # Shared variable for the slider and the number picker
+        self.value_var = IntVar(value=0)
 
-while True:
-    playsound("Audio/crc.wav")
+        # Slider that goes from 0 to 3000
+        self.slider = Scale(
+            master, from_=0, to=3000, orient=HORIZONTAL,
+            label="Slider", variable=self.value_var, length=400
+        )
+        self.slider.pack(pady=10)
+
+        # Number picker using a Spinbox with slightly smaller text
+        self.number_picker = Spinbox(
+            master, from_=0, to=3000, textvariable=self.value_var, font=("Arial", 12)
+        )
+        self.number_picker.pack(pady=10)
+
+        self.crc_var = IntVar()
+        self.gear_var = IntVar()
+        self.flaps_var = IntVar()
+
+        self.crc_checkbox = Checkbutton(master, text="CRC", variable=self.crc_var, fg="red")
+        self.crc_checkbox.pack()
+
+        self.gear_checkbox = Checkbutton(master, text="Gear", variable=self.gear_var)
+        self.gear_checkbox.pack()
+
+        self.flaps_checkbox = Checkbutton(master, text="Flaps", variable=self.flaps_var)
+        self.flaps_checkbox.pack()
+
+if __name__ == "__main__":
+    root = Tk()
+    app = MyApp(root)
+    root.mainloop()
